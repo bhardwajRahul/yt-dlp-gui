@@ -6,7 +6,7 @@ import sys
 
 import PySide6.QtCore as qtc
 
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 TITLE = 0
 FORMAT = 1
@@ -131,7 +131,7 @@ class Worker(qtc.QThread):
 
                 if line.startswith("{"):
                     title = json.loads(line)["title"]
-                    log.info(
+                    logger.info(
                         f"`{title}` with id {self.item.id} download started with args: "
                         + shlex.join(command)
                     )
@@ -153,7 +153,7 @@ class Worker(qtc.QThread):
                     )
                 elif line.lower().startswith("error"):
                     error = True
-                    log.error(line)
+                    logger.error(line.replace("ERROR:", "").strip())
                     self.progress.emit(
                         self.item,
                         [
